@@ -1,2 +1,134 @@
-404: Page not found
-Huh. That was a problem. Return to start?
+<!doctype html>
+<html lang="en">
+
+<head>
+	<title>Hmmmm.... We Couldn&#39;t Reach Your Repl</title>
+	<style>
+		body {
+			margin: 0;
+			height: 100vh;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background: #ececec;
+			font-family: monospace;
+		}
+
+		.err-box {
+			background: #fff;
+			padding: 1em;
+			max-width: 30em;
+			width: 100vw;
+		}
+
+		.message {
+			display: flex;
+			flex-direction: row;
+		}
+
+		@media (max-width: 500px) {
+			.message {
+				flex-direction: column;
+				align-items: center;
+			}
+		}
+
+		.eval-bot {
+			width: 30%;
+			margin: 1em;
+		}
+
+		.console {
+			background-color: #0e1628;
+			color: #fff;
+			font-family: monospace;
+			padding: 1em;
+			margin: 1em;
+		}
+	</style>
+
+  <script>
+     var reload_timeout = setTimeout(function() {
+       window.location.reload();
+     }, 60000)
+  </script>
+</head>
+
+<body>
+	<div class="err-box">
+		<div class="message">
+			<div class="eval-bot">
+				<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 10 50.5 42.8">
+					<defs>
+						<style>
+							.cls-1 {
+								fill: #4f5050
+							}
+
+							.cls-2 {
+								fill: #334b5e;
+								fill-rule: evenodd
+							}
+
+							.cls-3 {
+								fill: #e0e3e8
+							}
+
+							.cls-4 {
+								fill: #57686f
+							}
+
+							.cls-5 {
+								fill: #fff
+							}
+						</style>
+					</defs>
+					<g id="Layer_2" data-name="Layer 2">
+						<path class="cls-1" d="M22.9 32.2H28v10.5h-5.1z" />
+						<path class="cls-2" d="M14.1 37.5l-4.9-4.7-2.9 2.4 7.1 4.5.7-2.2z" />
+						<circle class="cls-3" cx="13.8" cy="37.5" r="2.7" />
+						<path class="cls-2" d="M37.2 37.5l4.9-4.7 2.9 2.4-7.2 4.5-.6-2.2z" />
+						<circle class="cls-3" cx="37.5" cy="37.5" r="2.7" />
+						<path class="cls-2" d="M46 33l1.4-8.5-1.6-.3-2.1 8.1 2.3.7z" />
+						<circle class="cls-3" cx="44.3" cy="32.6" r="2.7" transform="rotate(-81 44.3 32.6)" />
+						<circle class="cls-4" cx="46.5" cy="24.1" r="1.2" transform="rotate(-81 46.5 24.1)" />
+						<rect class="cls-3" x="9.7" y="15.8" width="30.9" height="15.8" rx="7" ry="7" />
+						<circle class="cls-5" cx="32.6" cy="23.4" r="6" />
+						<path class="cls-4" d="M37.6 23zm-7.5 0s-1.4 5 4.2 5.1a5 5 0 0 0 3.3-4.1v-1c-1.5 5.8-8 3.5-7.5 0z" />
+						<path class="cls-4" d="M33 21s-5.2-1.4-5.1 4.3A5 5 0 0 0 29 27a5 5 0 0 0 .5.4h.1a5 5 0 0 0 .6.4l.1.1a5 5 0 0 0 .5.2h.1a5 5 0 0 0 .7.2h.2a5 5 0 0 0 .6 0h.5c-5.8-1.3-3.6-7.9 0-7.4z"
+						/>
+						<path class="cls-4" d="M35 23.7s1.3-5.2-4.3-5a5 5 0 0 0-3.1 5.4c1.2-5.9 7.8-4 7.4-.4z" />
+						<path class="cls-4" d="M32.4 26s5.2.7 4.9-4.3a5 5 0 0 0-5.7-3.2c5.9.7 4.3 7.5.8 7.5z" />
+						<path class="cls-1" d="M32.6 21.4a2 2 0 0 0-.3 0 1.1 1.1 0 0 1-1.7 1.5 2 2 0 1 0 2-1.5z" />
+						<path class="cls-5" d="M32.5 22a1.1 1.1 0 0 0-.2-.6 2 2 0 0 0-1.7 1.5 1.1 1.1 0 0 0 1.9-.9z" />
+						<circle class="cls-5" cx="17.4" cy="23.4" r="6" />
+						<path class="cls-4" d="M22.4 23zM15 23s-1.5 5 4 5a5 5 0 0 0 3.3-4.1v-1c-1.5 5.8-8 3.5-7.5 0z" />
+						<path class="cls-4" d="M17.8 21s-5.2-1.4-5 4.3a5 5 0 0 0 1.1 1.8h.1a5 5 0 0 0 .5.4 5 5 0 0 0 .6.4l.2.1a5 5 0 0 0 .5.2 5 5 0 0 0 .7.2h.2a5 5 0 0 0 .7 0h.5c-5.9-1.3-3.6-7.9 0-7.4z"
+						/>
+						<path class="cls-4" d="M19.9 23.7s1.2-5.2-4.3-5a5 5 0 0 0-3.2 5.4c1.2-5.9 7.8-4 7.5-.4z" />
+						<path class="cls-4" d="M17.2 26s5.2.7 4.9-4.3a5 5 0 0 0-5.6-3.2c5.8.7 4.3 7.5.7 7.5z" />
+						<path class="cls-1" d="M17.4 21.4a2 2 0 0 0-.3 0 1.1 1.1 0 0 1-1.6 1.5 2 2 0 1 0 2-1.5z" />
+						<path class="cls-5" d="M17.3 22a1.1 1.1 0 0 0-.2-.6 2 2 0 0 0-1.6 1.5 1.1 1.1 0 0 0 1.8-.9z" />
+						<path d="M34.4 49.8H16.6a3 3 0 0 1-3-3l-1-8a2.7 2.7 0 0 1 2.6-3H36c1.6 0 2.5 1.3 2.5 3l-1 8a3 3 0 0 1-3 3z" fill="#2f4556"
+						/>
+						<path d="M23.8 43.8h2.7v2.7h-2.7zm2.7-2.7h2.7v2.7h-2.7zm-2.7-2.7h2.7v2.7h-2.7z" fill="#ddb429" />
+						<path d="M22.3 34.6h6.3v1.6h-6.3zm0-2.5h6.3v1.6h-6.3z" fill="#575858" />
+						<path class="cls-2" d="M5.3 33l-1.4-8.5 1.6-.3 2.1 8.1-2.3.7z" />
+						<circle class="cls-3" cx="7" cy="32.6" r="2.7" transform="rotate(-9 7 32.6)" />
+						<circle class="cls-4" cx="4.8" cy="24.1" r="1.2" transform="rotate(-9 4.8 24.1)" />
+					</g>
+				</svg>
+			</div>
+			<div class="info-box">
+				<h1>Hmmmm.... We Couldn&#39;t Reach Your Repl</h1>
+				<h2>Make sure your repl has a port open and is ready to receive HTTP traffic.</h2>
+			</div>
+		</div>
+		
+		<div>
+			<div>Return to <a href="https://repl.it">Repl.it</a>?</div>
+		</div>
+	</div>
+</body>
+
+</html>
