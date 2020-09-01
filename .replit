@@ -1,2 +1,2 @@
-language = "nodejs"
-run = "node twl.js a"
+language = "go"
+run = "go build dusk.go && ./dusk add a"

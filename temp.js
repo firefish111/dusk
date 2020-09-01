@@ -11,12 +11,13 @@ console.log(arg);
       console.log("DB1");
       let ver = [];
       let code;
-      await getlib(`https://twlcdn.firefish.repl.co/cdn/${pkg}`, { method: "GET", headers: { //
-        "X-From-Twilight": "(*){^}(*)" // secret passcode idk
+      await getlib(`https://duskcdn.firefish.repl.co/cdn/${pkg}`, { method: "GET", headers: { //
+        "X-Requested-With": "night-dusk-pkg" // hahaNO
       } })
-        //.then(res => ver = res.headers.version)
         .then(res => res.text())
-        .then(text => code = text);
+        .then(text => code = text)
+        //.then(res => ver = res.headers["X-Package-Version"]);
+        console.log(ver);
       fs.writeFileSync(`${__dirname}/dusk_modules/${pkg}.night`, code)
     });
   }
