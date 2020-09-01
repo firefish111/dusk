@@ -1,27 +1,27 @@
 package main
 
 import (
-	"fmt"
-	"io/ioutil"
-	"net/http"
-	"os"
+  "fmt"
+  "io/ioutil"
+  "net/http"
+  "os"
 )
 
 func safe(e error) {
-	if e != nil {
-		panic(e)
-	}
+  if e != nil {
+    panic(e)
+  }
 }
 
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Fprintf(os.Stderr, "dusk usage: %s command package [more packages]\n", os.Args[0]) // incorrectly formatted
-		os.Exit(1)
-	} else if os.Args[1] == "help" {
-		fmt.Printf("Usage: %s command package [more packages]\nExample:\n\n\t%s add myPkg\nThe above installs myPkg.\n\n\t%s del myPkg\nThe above deletes myPkg.\n", os.Args[0], os.Args[0], os.Args[0], os.Args[0]) // prints help
-		os.Exit(0)
-	}
-	for _, pkg := range os.Args[2:] { // iterates over all the packages passed
+  if len(os.Args) < 2 {
+    fmt.Fprintf(os.Stderr, "dusk usage: %s command package [more packages]\n", os.Args[0]) // incorrectly formatted
+    os.Exit(1)
+  } else if os.Args[1] == "help" {
+    fmt.Printf("Usage: %s command package [more packages]\nExample:\n\n\t%s add myPkg\nThe above installs myPkg.\n\n\t%s del myPkg\nThe above deletes myPkg.\n", os.Args[0], os.Args[0], os.Args[0], os.Args[0]) // prints help
+    os.Exit(0)
+  }
+  for _, pkg := range os.Args[2:] { // iterates over all the packages passed
     if os.Args[1] != "del" {
       client := &http.Client{} // creates client
 
@@ -40,7 +40,7 @@ func main() {
       body, err := ioutil.ReadAll(res.Body) // read body of response
       res.Body.Close()
       safe(err)
-
+      
       os.Mkdir("./dusk_modules", 0755)
       if os.Args[1] == "add" {
         fmt.Printf("\x1b[1m\x1b[38;5;164mInstalled package \x1b[38;5;202m%s \x1b[38;5;155mv", pkg)
@@ -55,9 +55,9 @@ func main() {
         safe(err) // create night file
       }
     } else {
-      fmt.Printf("\x1b[1m\x1b[38;5;164mUninstalled package \x1b[38;5;202m%s \x1b[38;5;155m\n", pkg)
-			err := os.Remove("./dusk_modules/" + pkg + ".night") // delete night file
-			safe(err)
-		}
-	}
+      fmt.Printf("\x1b[1m\x1b[38;5;164mUninstalled package \x1b[38;5;202m%s \x1b[38;5;155m\n\x1b[0m", pkg)
+      err := os.Remove("./dusk_modules/" + pkg + ".night") // delete night file
+      safe(err)
+    }
+  }
 }
