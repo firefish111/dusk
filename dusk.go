@@ -32,6 +32,10 @@ func main() {
       req.Header.Add("X-Requested-With", "night-dusk-pkg")
       res, err = client.Do(req) // send request
       safe(err)
+      if res.StatusCode != 200 {
+        panic(fmt.Sprintf("Status Code %d", res.StatusCode))
+        os.Exit(1)
+      }
 
       body, err := ioutil.ReadAll(res.Body) // read body of response
       res.Body.Close()
