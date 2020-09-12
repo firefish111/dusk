@@ -43,12 +43,9 @@ func main() {
 
 			os.Mkdir("./dusk_pkgs", 0755)
 			if os.Args[1] == "add" {
-				if _, err = os.Stat("./dusk_pkgs/" + pkg + ".night"); os.IsNotExist(err) {
-					panic("File already exists, please use \x1b[38;5;155mdusk upd **[packages]**")
+				if _, err = os.Stat("./dusk_pkgs/" + pkg + ".night"); !os.IsNotExist(err) {
+					panic("File already exists, please use \x1b[38;5;155mdusk upd **[packages]**\x1b[0m")
 				}
-				//if _, err := os.Stat("/path/to/whatever"); os.IsNotExist(err) {
-
-				//				if _, err := os.Stat("./dusk_pkgs/" + pkg + ".night"); os.IsExist(err) {
 
 				err = ioutil.WriteFile("./dusk_pkgs/"+pkg+".night", body, 0666)
 				safe(err) // write to night file
@@ -61,7 +58,23 @@ func main() {
 					}
 				}
 				fmt.Print("\x1b[0m\n")
-			}
+			} else if os.Args[1] == "upd" {
+				if _, err = os.Stat("./dusk_pkgs/" + pkg + ".night"); os.IsNotExist(err) {
+					fmt.Fprintln(os.Stderr, "\x1b[1m\x1b[38;5;9mWarning: destination file doesn't exist, installing package standalone");
+				}
+
+				err = ioutil.WriteFile("./dusk_pkgs/"+pkg+".night", body, 0666)
+				safe(err) // write to night file
+
+				fmt.Printf("\x1b[1m\x1b[38;5;164mUpdated package \x1b[38;5;202m%s \x1b[38;5;155mto v", pkg)
+				for indx, err := range res.Header["X-Package-Version"] {
+					fmt.Printf("%s", err)
+					if indx != len(res.Header["X-Package-Version"])-1 {
+						fmt.Print(".")
+					}
+				}
+				fmt.Print("\x1b[0m\n")
+      }
 		} else {
 			err := os.Remove("./dusk_pkgs/" + pkg + ".night") // delete night file
 			safe(err)

@@ -1,2 +1,2 @@
 language = "go"
-run = "go build dusk.go && ./dusk add example"
+run = "go build dusk.go && ./dusk upd example"
