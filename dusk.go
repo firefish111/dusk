@@ -1,10 +1,12 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 )
 
 func safe(e error) {
@@ -14,6 +16,17 @@ func safe(e error) {
 }
 
 func main() {
+	os.Mkdir("./dusk_pkgs", 0755)
+	// metadata things
+	if _, err := os.Stat("./dusk_pkgs/metadata.json"); os.IsNotExist(err) {
+		ioutil.WriteFile("./dusk_pkgs/metadata.json", []byte("{}"), 0666)
+	}
+	meta := make(map[string]map[string]interface{})
+	dat, err := ioutil.ReadFile("./dusk_pkgs/metadata.json")
+	safe(err)
+	err = json.Unmarshal([]byte(dat), &meta)
+	safe(err)
+	// help menu
 	if len(os.Args) < 2 {
 		fmt.Fprintf(os.Stderr, "dusk usage: %s command package [more packages]\n", os.Args[0]) // incorrectly formatted
 		os.Exit(1)
@@ -41,7 +54,6 @@ func main() {
 			res.Body.Close()
 			safe(err)
 
-			os.Mkdir("./dusk_pkgs", 0755)
 			if os.Args[1] == "add" {
 				if _, err = os.Stat("./dusk_pkgs/" + pkg + ".night"); !os.IsNotExist(err) {
 					panic("File already exists, please use \x1b[38;5;155mdusk upd **[packages]**\x1b[0m")
@@ -50,35 +62,34 @@ func main() {
 				err = ioutil.WriteFile("./dusk_pkgs/"+pkg+".night", body, 0666)
 				safe(err) // write to night file
 
-				fmt.Printf("\x1b[1m\x1b[38;5;164mInstalled package \x1b[38;5;202m%s \x1b[38;5;155mv", pkg)
-				for indx, err := range res.Header["X-Package-Version"] {
-					fmt.Printf("%s", err)
-					if indx != len(res.Header["X-Package-Version"])-1 {
-						fmt.Print(".")
-					}
-				}
-				fmt.Print("\x1b[0m\n")
+				fmt.Printf("\x1b[1m\x1b[38;5;164mInstalled package \x1b[38;5;202m%s \x1b[38;5;155mv%s\x1b[0m\n", pkg, strings.Trim(strings.Join(strings.Fields(fmt.Sprint(res.Header["X-Package-Version"])), "."), "[]"))
+
+				meta[pkg] = make(map[string]interface{})
+				meta[pkg]["version"] = res.Header["X-Package-Version"]
 			} else if os.Args[1] == "upd" {
 				if _, err = os.Stat("./dusk_pkgs/" + pkg + ".night"); os.IsNotExist(err) {
-					fmt.Fprintln(os.Stderr, "\x1b[1m\x1b[38;5;9mWarning: destination file doesn't exist, installing package standalone");
+					fmt.Fprintln(os.Stderr, "\x1b[38;5;9mWarning: destination file doesn't exist, installing package standalone")
 				}
 
 				err = ioutil.WriteFile("./dusk_pkgs/"+pkg+".night", body, 0666)
 				safe(err) // write to night file
 
-				fmt.Printf("\x1b[1m\x1b[38;5;164mUpdated package \x1b[38;5;202m%s \x1b[38;5;155mto v", pkg)
-				for indx, err := range res.Header["X-Package-Version"] {
-					fmt.Printf("%s", err)
-					if indx != len(res.Header["X-Package-Version"])-1 {
-						fmt.Print(".")
-					}
+				fmt.Printf("\x1b[1m\x1b[38;5;164mUpdated package \x1b[38;5;202m%s \x1b[38;5;155mv%s to v%s\x1b[0m\n", pkg, strings.Trim(strings.Join(strings.Fields(fmt.Sprint(meta[pkg]["version"])), "."), "[]"), strings.Trim(strings.Join(strings.Fields(fmt.Sprint(res.Header["X-Package-Version"])), "."), "[]"))
+
+				if _, ok := meta[pkg]; !ok {
+					meta[pkg] = make(map[string]interface{})
 				}
-				fmt.Print("\x1b[0m\n")
-      }
+				meta[pkg]["version"] = res.Header["X-Package-Version"]
+			}
 		} else {
 			err := os.Remove("./dusk_pkgs/" + pkg + ".night") // delete night file
 			safe(err)
-			fmt.Printf("\x1b[1m\x1b[38;5;164mUninstalled package \x1b[38;5;202m%s \x1b[38;5;155m\n\x1b[0m", pkg)
+			fmt.Printf("\x1b[1m\x1b[38;5;164mUninstalled package \x1b[38;5;202m%s \x1b[38;5;155mv%s\n\x1b[0m", pkg, strings.Trim(strings.Join(strings.Fields(fmt.Sprint(meta[pkg]["version"])), "."), "[]"))
+			delete(meta, pkg)
 		}
 	}
+	dat, err = json.Marshal(meta)
+	safe(err)
+	err = ioutil.WriteFile("./dusk_pkgs/metadata.json", dat, 0666)
+	safe(err)
 }
