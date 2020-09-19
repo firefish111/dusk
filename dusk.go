@@ -31,11 +31,11 @@ func main() {
 		if len(meta) == 0 {
 			fmt.Println("\x1b[38;5;63mUnfortunately, no packages are installed.\x1b[0m")
 		} else {
-      for ky := range meta {
+			for ky := range meta {
 				fmt.Println("\x1b[38;5;63mInstalled packages are:\x1b[0m")
-        fmt.Printf("\x1b[1m\x1b[38;5;164mPackage \x1b[38;5;202m%s \x1b[38;5;155mv%s\x1b[0m\n", ky, strings.Trim(strings.Join(strings.Fields(fmt.Sprint(meta[ky]["version"])), "."), "[]"))
-      }
-    }
+				fmt.Printf("\x1b[1m\x1b[38;5;164mPackage \x1b[38;5;202m%s \x1b[38;5;155mv%s\x1b[0m\n", ky, strings.Trim(strings.Join(strings.Fields(fmt.Sprint(meta[ky]["version"])), "."), "[]"))
+			}
+		}
 	} else if len(os.Args) <= 2 {
 		fmt.Fprintf(os.Stderr, "dusk usage: %s command package [more packages]\n", os.Args[0]) // incorrectly formatted
 		os.Exit(1)
@@ -72,6 +72,8 @@ func main() {
 
 				meta[pkg] = make(map[string]interface{})
 				meta[pkg]["version"] = res.Header["X-Package-Version"]
+			} else if os.Args[1] == "inf" {
+				fmt.Printf("\x1b[1m\x1b[38;5;164mPackage \x1b[38;5;202m%s \x1b[38;5;155mv%s\x1b[0m\n", pkg, strings.Trim(strings.Join(strings.Fields(fmt.Sprint(res.Header["X-Package-Version"])), "."), "[]"))
 			} else if os.Args[1] == "upd" {
 				if _, err = os.Stat("./dusk_pkgs/" + pkg + ".night"); os.IsNotExist(err) {
 					fmt.Fprintln(os.Stderr, "\x1b[38;5;9mWarning: destination file doesn't exist, installing package standalone")
