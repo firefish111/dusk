@@ -27,12 +27,18 @@ func main() {
 	err = json.Unmarshal([]byte(dat), &meta)
 	safe(err)
 	// help menu
-	if len(os.Args) < 2 {
+	if os.Args[1] == "ls" {
+		if len(meta) == 0 {
+			fmt.Println("\x1b[38;5;63mUnfortunately, no packages are installed.\x1b[0m")
+		} else {
+      for ky := range meta {
+				fmt.Println("\x1b[38;5;63mInstalled packages are:\x1b[0m")
+        fmt.Printf("\x1b[1m\x1b[38;5;164mPackage \x1b[38;5;202m%s \x1b[38;5;155mv%s\x1b[0m\n", ky, strings.Trim(strings.Join(strings.Fields(fmt.Sprint(meta[ky]["version"])), "."), "[]"))
+      }
+    }
+	} else if len(os.Args) <= 2 {
 		fmt.Fprintf(os.Stderr, "dusk usage: %s command package [more packages]\n", os.Args[0]) // incorrectly formatted
 		os.Exit(1)
-	} else if os.Args[1] == "help" {
-		fmt.Println("Usage: %s command package [more packages]\nExample:\n\n\tdusk add myPkg\nThe above installs myPkg.\n\n\tdusk del myPkg\nThe above deletes myPkg.\n\n\tdusk upd myPkg\nThe above updates myPkg.") // prints help
-		os.Exit(0)
 	}
 	for _, pkg := range os.Args[2:] { // iterates over all the packages passed
 		if os.Args[1] != "del" {
@@ -84,7 +90,7 @@ func main() {
 		} else {
 			err := os.Remove("./dusk_pkgs/" + pkg + ".night") // delete night file
 			safe(err)
-			fmt.Printf("\x1b[1m\x1b[38;5;164mUninstalled package \x1b[38;5;202m%s \x1b[38;5;155mv%s\n\x1b[0m", pkg, strings.Trim(strings.Join(strings.Fields(fmt.Sprint(meta[pkg]["version"])), "."), "[]"))
+			fmt.Printf("\x1b[1m\x1b[38;5;164mUninstalled package \x1b[38;5;202m%s \x1b[38;5;155mv%s\x1b[0m\n", pkg, strings.Trim(strings.Join(strings.Fields(fmt.Sprint(meta[pkg]["version"])), "."), "[]"))
 			delete(meta, pkg)
 		}
 	}
