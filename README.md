@@ -26,7 +26,7 @@ cd dusk
 3. Compile Dusk
 
 ```
-go build -ldflags \"-s -w\" dusk.go
+go build -ldflags \"-s -w\" src/dusk.go
 ```
 
 And you're done!
