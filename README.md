@@ -1,5 +1,9 @@
 # dusk
-A package manager for @DynamicSquid's Language Night.
+
+The Night package manager. It provides a seemless interface for configuring and managing packages.
+
+---
+
 Written in GoLang.
 # commands
 `dusk add x` to install x
