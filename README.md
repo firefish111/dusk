@@ -11,7 +11,7 @@ Here are the current features:
 - `dusk upd` updates the package(s) provided.
 - `dusk inf` gets information about the given package(s) from the server.
 - `dusk ls` lists all installed packages.
-- *NOTE: IN ALPHA* `dusk find` finds packages containing the given parameters
+- *NOTE*: In ALPHA `dusk find` finds packages containing the given parameters
 ---
 
 ## Getting Started
@@ -22,15 +22,12 @@ You can also install Dusk from source if you'd wish. Here's how:
 
 ## How to Install
 
-- Install the Golang compiler, usnig the instructions at [the official GoLang website](https://golang.org/doc/install)
-- Clone this repo
-Use
-`git clone https://github.com/firefish111/dusk.git`
-or using the GitHub CLI
-`gh repo clone firefish111/dusk`
-then
-`cd dusk`
-
-- And compile dusk using `go build dusk.go`
+- Install the Golang compiler, using the instructions at [the official Golang website](https://golang.org/doc/install)
+- Clone this repo with:  
+   `git clone https://github.com/firefish111/dusk.git`  
+  or using the GitHub CLI:  
+    `gh repo clone firefish111/dusk`  
+- And then enter the source folder: `cd dusk`
+- Lastly compile dusk using `go build dusk.go`
 
 # And that's it!
