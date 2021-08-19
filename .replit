@@ -1,2 +1,2 @@
 language = "go"
-run = "go build -ldflags \"-s -w\" dusk.go && ./dusk upd example"
+run = "go build -ldflags \"-s -w\" main.go && ./main ls"

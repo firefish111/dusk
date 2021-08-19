@@ -7,7 +7,7 @@ The [Night](https://github.com/DynamicSquid/night) package manager. It provides 
 Here are the current features:
 
 - `dusk add` installs the package(s) of your choice, just list them after the command.
-- `dusk del` removes the package(s) provided.
+- `dusk del` deletes the package(s) provided.
 - `dusk upd` updates the package(s) provided.
 - `dusk inf` gets information about the given package(s) from the server.
 - `dusk ls` lists all installed packages.
