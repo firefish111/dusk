@@ -1,11 +1,11 @@
 package main
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
+  "encoding/json"
+  "fmt"
+  "io/ioutil"
   "io/fs"
-	"net/http"
-	"os"
+  "net/http"
+  "os"
   "strings"
   "errors"
 
@@ -15,27 +15,27 @@ import (
 
 // safety go brrrrrr
 func safe(e error) {
-	if e != nil {
-		panic(e)
-	}
+  if e != nil {
+    panic(e)
+  }
 }
 
 // long boi function chain
 func vparse(ver interface{}) string {
-  return strings.Trim(
-    strings.Join(
-      strings.Fields(
-        fmt.Sprint(ver),
-      ), ".",
-    ), "[]",
-  )
+  body := strings.Fields(fmt.Sprint(ver))
+
+  ver_k := strings.Join(body[:3], ".")
+  if len(body) > 3 {
+    ver_k += "-" + body[3];
+  }
+  return strings.Trim(ver_k, "[]");
 }
 
 
 func main() {
   meta := make(map[string]map[string]interface{}) 
   // not paying attention to error, because am smort
-	os.Mkdir("./pkgs", 0755)
+  os.Mkdir("./pkgs", 0755)
 
   // haha colours go brrrrrr
   indigo := color.C256(63, false)
@@ -46,7 +46,7 @@ func main() {
   rederr := color.Style{color.FgRed}
 
   // if not exist
- 	if _, err := os.Stat("./pkgs/metadata.json"); !errors.Is(err, fs.ErrNotExist) {
+   if _, err := os.Stat("./pkgs/metadata.json"); !errors.Is(err, fs.ErrNotExist) {
     // readfile
     dat, err := ioutil.ReadFile("./pkgs/metadata.json")
     safe(err)
@@ -74,34 +74,34 @@ func main() {
     os.Exit(0)
   }
   for _, pkg := range os.Args[2:] { // iterates over all the packages passed
-		if os.Args[1] == "del" {
+    if os.Args[1] == "del" {
       err := os.Remove("./pkgs/" + pkg + ".night") // delete night file
-			safe(err)
+      safe(err)
       bold.Print(pink.Sprint("Uninstalled package "))
       orange.Printf("%s ", pkg)
       lime.Printf("v%s\n", vparse(meta[pkg]["version"]))
 
-			delete(meta, pkg)
+      delete(meta, pkg)
     } else {
-			client := &http.Client{} // creates client
+      client := &http.Client{} // creates client
 
-			// res, err := client.Get("https://duskcdn.firefish.repl.co/cdn/" + pkg)
+      // res, err := client.Get("https://duskcdn.firefish.repl.co/cdn/" + pkg)
       var method string
       if method = "GET"; os.Args[1] == "inf" {
         method = "POST"
       }
-			req, err := http.NewRequest(method, fmt.Sprintf(
+      req, err := http.NewRequest(method, fmt.Sprintf(
         "https://duskcdn.firefish.repl.co/cdn/%s", pkg,
       ), nil) // initialise request
-			safe(err)
+      safe(err)
 
-			req.Header.Add("X-Requested-With", "night-dusk-pkg")
-			res, err := client.Do(req) // send request
-			safe(err)
-			if res.StatusCode != 200 {
-				panic(fmt.Sprintf("Status Code %d", res.StatusCode))
-				os.Exit(1)
-			}
+      req.Header.Add("X-Requested-With", "night-dusk-pkg")
+      res, err := client.Do(req) // send request
+      safe(err)
+      if res.StatusCode != 200 {
+        panic(fmt.Sprintf("Status Code %d", res.StatusCode))
+        os.Exit(1)
+      }
 
       if os.Args[1] != "inf" {
         body, err := ioutil.ReadAll(res.Body) // read body of response
@@ -154,9 +154,9 @@ func main() {
         lime.Printf("v%s\n", vparse(res.Header["X-Package-Version"]))
       }
     }
-	}
-	dat, err := json.Marshal(meta)
+  }
+  dat, err := json.Marshal(meta)
   safe(err)
-	err = ioutil.WriteFile("./pkgs/metadata.json", dat, 0666)
-	safe(err)
+  err = ioutil.WriteFile("./pkgs/metadata.json", dat, 0666)
+  safe(err)
 }
