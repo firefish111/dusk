@@ -1,3 +1,5 @@
+
+
 # Dusk
 
 This is **the** package manager for [The Night Programming language](https://github.com/DynamicSquid/night).
@@ -32,6 +34,6 @@ You can also install Dusk from source if you'd wish. Here's how:
 
 3. Enter the source folder: `cd dusk`
 
-4. Compile dusk using `go build dusk.go`
+4. Compile dusk using `go build dusk.go` (this creates a `dusk` executable in the current directory)
 
 And that's it!
